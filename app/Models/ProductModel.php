@@ -13,19 +13,23 @@ class ProductModel extends Model
     // Specify the fields that are allowed to be mass-assigned
     protected $allowedFields = [
         'nama_produk',
+        'deskripsi_produk',
         'harga',
         'stok',
         'kategori_id', // Foreign key for categories
         'image', // Field for storing product images
+        'status',
     ];
 
     // Optional: Set validation rules if needed
     protected $validationRules = [
         'nama_produk' => 'required|min_length[3]',
+        'deskripsi_produk' => 'required|min_length[10]',
         'harga' => 'required|numeric',
         'stok' => 'required|integer',
         'kategori_id' => 'required|integer', // Ensure kategori_id is provided
         'image' => 'permit_empty|is_image[image]', // Optional validation for image
+        'status' => 'required|min_length[3]',
     ];
 
     // Optional: Set error messages
@@ -33,6 +37,10 @@ class ProductModel extends Model
         'nama_produk' => [
             'required' => 'Product name is required.',
             'min_length' => 'Product name must be at least 3 characters long.',
+        ],
+        'deskripsi_produk' => [
+            'required' => 'Description Product is required',
+            'min_length[10]' => 'Description Product must be at least 10 characters long.',
         ],
         'harga' => [
             'required' => 'Price is required.',
@@ -49,6 +57,10 @@ class ProductModel extends Model
         'image' => [
             'is_image' => 'Uploaded file must be an image.',
         ],
+        'status' => [
+            'required' => 'Status is required.',
+            'min_length' => 'Status must be at least 3 characters long'
+        ]
     ];
 
     // Retrieve all products

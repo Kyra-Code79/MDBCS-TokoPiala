@@ -1,10 +1,3 @@
-<?php
-$session = session();
-
-// Retrieve the username and role from the session
-$username = $session->get('username');
-$role = $session->get('role');
-?>
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 
@@ -17,17 +10,18 @@ $role = $session->get('role');
 	<meta name="keywords"
 		content="admin template, modern admin template, dashboard template, flat admin template, responsive admin template, web app, crypto dashboard, bitcoin dashboard">
 	<meta name="author" content="PIXINVENT">
-	<title>TRPL - Shop | Product Detail</title>
+	<title>TRPL - Shop | Invoice List</title>
 	<link rel="apple-touch-icon" href="../../../app-assets/images/ico/TRPL.png">
-	<link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/TRPL.png">
+	<link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/TRPL.ico">
 	<link
 		href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700"
 		rel="stylesheet">
 	<!-- BEGIN VENDOR CSS-->
 	<link rel="stylesheet" type="text/css" href="../../../app-assets/css/vendors.css">
-	<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/icheck/icheck.css">
 	<link rel="stylesheet" type="text/css"
-		href="../../../app-assets/vendors/css/forms/spinner/jquery.bootstrap-touchspin.css">
+		href="../../../app-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/icheck/icheck.css">
+	<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/icheck/custom.css">
 	<!-- END VENDOR CSS-->
 	<!-- BEGIN MODERN CSS-->
 	<link rel="stylesheet" type="text/css" href="../../../app-assets/css/app.css">
@@ -35,49 +29,14 @@ $role = $session->get('role');
 	<!-- BEGIN Page Level CSS-->
 	<link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu-modern.css">
 	<link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/colors/palette-gradient.css">
-	<link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/ecommerce-cart.css">
-	<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/checkboxes-radios.css">
 	<!-- END Page Level CSS-->
 	<!-- BEGIN Custom CSS-->
 	<link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
 	<!-- END Custom CSS-->
-	<!-- Include Toastify CSS -->
-	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.css">
-
-	<!-- Include Toastify JS -->
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-	<script>
-		// Function to show toast notifications
-		function showToast(message) {
-			Toastify({
-				text: message,
-				duration: 3000, // Duration in milliseconds
-				gravity: "top", // `top` or `bottom`
-				position: 'right', // `left`, `center` or `right`
-				backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-			}).showToast();
-		}
-
-		// Check for query parameters
-		const urlParams = new URLSearchParams(window.location.search);
-		const message = urlParams.get('message');
-
-		if (message) {
-			switch (message) {
-				case 'insert_data_success':
-					showToast('Insert data success!.');
-					break;
-				case 'insert_data_failed':
-					showToast('Insert data failed!. Please try again.');
-					break;
-			}
-		}
-	</script>
 </head>
 
-<body
-	class="vertical-layout vertical-menu-modern 2-columns ecommerce-cart content-head-image  menu-expanded fixed-navbar"
-	data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+<body class="vertical-layout vertical-menu-modern 2-columns   menu-expanded fixed-navbar" data-open="click"
+	data-menu="vertical-menu-modern" data-col="2-columns">
 
 	<!-- fixed-top-->
 	<nav
@@ -88,11 +47,10 @@ $role = $session->get('role');
 					<li class="nav-item mobile-menu d-md-none mr-auto"><a
 							class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i
 								class="ft-menu font-large-1"></i></a></li>
-					<li class="nav-item mr-auto"> <a class="navbar-brand" href="dashboard"><img class="brand-logo"
-								alt="modern admin logo" src="../app-assets/images/ico/TRPL.png" />
-							<h5 class="brand-text">TRPL SHOP | Shop Owner</h4>
-						</a>
-					</li>
+					<li class="nav-item mr-auto"><a class="navbar-brand" href="/dashboard"><img class="brand-logo"
+								alt="modern admin logo" src="../../../app-assets/images/ico/TRPL.png">
+							<h5 class="brand-text">TRPL SHOP | Shop Owner</h5>
+						</a></li>
 					<li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse"
 							data-target="#navbar-mobile"><i class="la la-ellipsis-v"></i></a></li>
 				</ul>
@@ -277,7 +235,7 @@ $role = $session->get('role');
 						<li class="dropdown dropdown-user nav-item"><a
 								class="dropdown-toggle nav-link dropdown-user-link" href="#"
 								data-toggle="dropdown"><span class="mr-1">Hello,<span
-										class="user-name text-bold-700"><?= esc($username) ?></span></span><span
+										class="user-name text-bold-700">John Doe</span></span><span
 									class="avatar avatar-online"><img
 										src="../../../app-assets/images/portrait/small/avatar-s-19.png"
 										alt="avatar"><i></i></span></a>
@@ -456,12 +414,13 @@ $role = $session->get('role');
 	<div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
 		<div class="main-menu-content">
 			<ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-				<li class="nav-item">
+				<li>
 					<a href="dashboard"><i class="la la-home"></i><span class="menu-title" data-i18n=""> Admin
 							Dashboard</span></a>
 				</li>
-				<li class="active"><a href="admin-product-detail"><i class="la la-list"></i><span class="menu-title"
-							data-i18n="">Product</span></a>
+				<li class="nav-item">
+					<a href="<?= base_url('/admin-product-detail') ?>"><i class="la la-list"></i><span
+							class="menu-title" data-i18n="">Product</span></a>
 					<ul class="menu-content">
 						<li><a class="menu-item" href="/admin-product-detail"
 								data-i18n="nav.invoice.invoice_template">Daftar Produk</a>
@@ -472,13 +431,13 @@ $role = $session->get('role');
 					</ul>
 				</li>
 				<li class=" nav-item"><a href="#"><i class="la la-clipboard"></i><span class="menu-title"
-							data-i18n="nav.invoice.main">Invoice</span></a>
+							data-i18n="nav.invoice.main">Transactions</span></a>
 					<ul class="menu-content">
-						<li><a class="menu-item" href="invoice-template.html"
-								data-i18n="nav.invoice.invoice_template">Invoice Template</a>
+						<li><a class="menu-item" href="invoiceTemplate" data-i18n="nav.invoice.invoice_template">Invoice
+								Template</a>
 						</li>
-						<li><a class="menu-item" href="invoice-list.html" data-i18n="nav.invoice.invoice_list">Invoice
-								List</a>
+						<li class="active"><a class="menu-item" href="invoiceList"
+								data-i18n="nav.invoice.invoice_list">Invoice List</a>
 						</li>
 					</ul>
 				</li>
@@ -490,13 +449,15 @@ $role = $session->get('role');
 		<div class="content-wrapper">
 			<div class="content-header row">
 				<div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-					<h3 class="content-header-title mb-0 d-inline-block">Add Product</h3>
+					<h3 class="content-header-title mb-0 d-inline-block">Invoice List</h3>
 					<div class="row breadcrumbs-top d-inline-block">
 						<div class="breadcrumb-wrapper col-12">
 							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="<?= base_url('/dashboard') ?>">Home</a>
+								<li class="breadcrumb-item"><a href="index.html">Home</a>
 								</li>
-								<li class="breadcrumb-item active">Add Product
+								<li class="breadcrumb-item"><a href="#">Invoice</a>
+								</li>
+								<li class="breadcrumb-item active">Invoice List
 								</li>
 							</ol>
 						</div>
@@ -504,92 +465,127 @@ $role = $session->get('role');
 				</div>
 				<div class="content-header-right col-md-6 col-12">
 					<div class="btn-group float-md-right">
-						<button class="btn btn-info" type="button" aria-haspopup="true" aria-expanded="false"
-							id="addProductBtn">Tambah</button>
-					</div>
-				</div>
-				<!-- Modal for Adding Product -->
-				<div class="modal fade" id="addProductModal" tabindex="-1" role="dialog"
-					aria-labelledby="addProductModalLabel" aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<form id="addProductForm" action="<?= base_url('/admin-product/add') ?>" method="POST"
-								enctype="multipart/form-data">
-								<div class="modal-body">
-									<div class="form-group">
-										<label for="productName">Nama Produk</label>
-										<input type="text" class="form-control" name="nama_produk" id="nama_produk"
-											required>
-									</div>
-									<div class="form-group">
-										<label for="productPrice">Harga</label>
-										<input type="number" class="form-control" name="harga" id="harga" required>
-									</div>
-									<div class="form-group">
-										<label for="stok">Stok</label>
-										<textarea class="form-control" name="stok" id="stok" rows="3"
-											required></textarea>
-									</div>
-									<div class="form-group">
-										<label for="kategori">Kategori</label>
-										<select class="form-control" name="kategori_id" id="kategori" required>
-											<option value="">Select Kategori</option>
-											<?php foreach ($kategoriList as $kategori): ?>
-												<option value="<?= $kategori['kategori_id']; ?>">
-													<?= $kategori['nama_kategori']; ?></option>
-											<?php endforeach; ?>
-										</select>
-									</div>
-									<div class="form-group">
-										<label for="productImage">Image</label>
-										<input type="file" class="form-control" name="image" id="image" required>
-									</div>
-									<!-- Add more fields as needed -->
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-									<button type="submit" class="btn btn-primary">Add Product</button>
-								</div>
-							</form>
+						<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">Action</button>
+						<div class="dropdown-menu arrow"><a class="dropdown-item" href="#"><i
+									class="fa fa-calendar-check mr-1"></i> Calender</a><a class="dropdown-item"
+								href="#"><i class="fa fa-cart-plus mr-1"></i> Cart</a><a class="dropdown-item"
+								href="#"><i class="fa fa-life-ring mr-1"></i> Support</a>
+							<div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i
+									class="fa fa-cog mr-1"></i> Settings</a>
 						</div>
 					</div>
 				</div>
-
 			</div>
 			<div class="content-body">
-				<div class="shopping-cart">
-					<div class="tab-content pt-1">
-						<div class="tab-pane active" id="shop-cart-tab" aria-labelledby="shopping-cart">
-							<div class="card">
-								<div class="card-content">
-									<div class="card-body">
-										<div class="table-responsive">
-											<table class="table table-borderless mb-0">
-												<thead>
-													<tr>
-														<th>Product</th>
-														<th>Details</th>
-														<th>Price</th>
-														<th>No. Of Products</th>
-														<th>Total</th>
-														<th>Action</th>
-													</tr>
-												</thead>
+				<section class="row">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-head">
+								<div class="card-header">
+									<h4 class="card-title">Invoices</h4>
+									<a class="heading-elements-toggle"><i
+											class="la la-ellipsis-h font-medium-3"></i></a>
+									<div class="heading-elements">
+										<button class="btn btn-primary btn-sm"><i class="ft-plus white"></i> Create
+											Invoice</button>
+										<span class="dropdown">
+											<button id="btnSearchDrop1" type="button" data-toggle="dropdown"
+												aria-haspopup="true" aria-expanded="true"
+												class="btn btn-warning btn-sm dropdown-toggle dropdown-menu-right"><i
+													class="ft-download-cloud white"></i></button>
+											<span aria-labelledby="btnSearchDrop1"
+												class="dropdown-menu mt-1 dropdown-menu-right">
+												<a href="#" class="dropdown-item"><i class="la la-calendar"></i> Due
+													Date</a>
+												<a href="#" class="dropdown-item"><i class="la la-random"></i> Priority
+												</a>
+												<a href="#" class="dropdown-item"><i class="la la-bar-chart"></i>
+													Balance Due</a>
+												<a href="#" class="dropdown-item"><i class="la la-user"></i> Assign
+													to</a>
+											</span>
+										</span>
 
-											</table>
-										</div>
 									</div>
+								</div>
+							</div>
+							<div class="card-content">
+								<div class="card-body">
+									<!-- Invoices List table -->
+									<div class="table-responsive">
+										<table id="invoices-list"
+											class="table table-white-space table-bordered row-grouping display no-wrap icheck table-middle">
+											<thead>
+												<tr>
+													<th><input type="checkbox" class="input-chk-all"></th>
+													<th>Date</th>
+													<th>Invoice #</th>
+													<th>Order No</th>
+													<th>Customer Name</th>
+													<th>Due</th>
+													<th>Amount</th>
+													<th>Status</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												<!-- PAID -->
+												<tr>
+													<td><input type="checkbox" class="input-chk"></td>
+													<td>06/05/2017</td>
+													<td><a href="#" class="text-bold-600">INV-001001</a></td>
+													<td>PO-005201</td>
+													<td>Elizabeth Washington</td>
+													<td>10/05/2017</td>
+													<td>$ 1200.00</td>
+													<td>$ 200.00</td>
+													<td>
+														<span class="dropdown">
+															<button id="btnSearchDrop2" type="button"
+																data-toggle="dropdown" aria-haspopup="true"
+																aria-expanded="true"
+																class="btn btn-primary dropdown-toggle dropdown-menu-right"><i
+																	class="ft-settings"></i></button>
+															<span aria-labelledby="btnSearchDrop2"
+																class="dropdown-menu mt-1 dropdown-menu-right">
+																<a href="#" class="dropdown-item"><i
+																		class="la la-eye"></i> Open Task</a>
+																<a href="#" class="dropdown-item"><i
+																		class="la la-pencil"></i> Edit Task</a>
+																<a href="#" class="dropdown-item"><i
+																		class="la la-check"></i> Complete Task</a>
+																<a href="#" class="dropdown-item"><i
+																		class="ft-upload"></i> Assign to</a>
+																<a href="#" class="dropdown-item"><i
+																		class="la la-trash"></i> Delete Task</a>
+															</span>
+														</span>
+													</td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<th><input type="checkbox" class="input-chk-all"></th>
+													<th>Date</th>
+													<th>Invoice #</th>
+													<th>Order No</th>
+													<th>Customer Name</th>
+													<th>Status</th>
+													<th>Due</th>
+													<th>Amount</th>
+													<th>Status</th>
+													<th>Actions</th>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+									<!--/ Invoices table -->
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</section>
 			</div>
 		</div>
 	</div>
@@ -605,17 +601,13 @@ $role = $session->get('role');
 				class="float-md-right d-block d-md-inline-blockd-none d-lg-block">Hand-crafted & Made with <i
 					class="ft-heart pink"></i></span></p>
 	</footer>
-	<script>
-		// Show the modal when the button is clicked
-		document.getElementById('addProductBtn').addEventListener('click', function() {
-			$('#addProductModal').modal('show');
-		});
-	</script>
+
 	<!-- BEGIN VENDOR JS-->
 	<script src="../../../app-assets/vendors/js/vendors.min.js"></script>
 	<!-- BEGIN VENDOR JS-->
 	<!-- BEGIN PAGE VENDOR JS-->
-	<script src="../../../app-assets/vendors/js/forms/spinner/jquery.bootstrap-touchspin.js"></script>
+	<script src="../../../app-assets/vendors/js/tables/jquery.dataTables.min.js"></script>
+	<script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js"></script>
 	<script src="../../../app-assets/vendors/js/forms/icheck/icheck.min.js"></script>
 	<!-- END PAGE VENDOR JS-->
 	<!-- BEGIN MODERN JS-->
@@ -623,7 +615,7 @@ $role = $session->get('role');
 	<script src="../../../app-assets/js/core/app.js"></script>
 	<!-- END MODERN JS-->
 	<!-- BEGIN PAGE LEVEL JS-->
-	<script src="../../../app-assets/js/scripts/pages/ecommerce-cart.js"></script>
+	<script src="../../../app-assets/js/scripts/pages/invoices-list.js"></script>
 	<!-- END PAGE LEVEL JS-->
 </body>
 

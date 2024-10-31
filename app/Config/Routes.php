@@ -13,7 +13,7 @@ $routes->get('/product-detail', 'Home::beforeUserProduct');
 $routes->get('/shopping-cart', 'Home::UserCart');
 $routes->get('/checkout', 'Home::UserCheckout');
 $routes->get('/order', 'Home::UserOrder');
-$routes->get('/invoiceList', 'Home::UserInvoiceList');
+
 $routes->get('/invoiceTemplate', 'Home::UserInvoiceTemplate');
 
 // Admin Pages
@@ -33,3 +33,13 @@ $routes->get('/admin-product-detail', 'adminController::productList', ['filter' 
 // Add Produk
 $routes->get('/admin-add-product', 'adminController::AdminAddProduct', ['filter' => 'authGuard']);
 $routes->post('/admin-product/add', 'adminController::addProduct');
+// Edit Produk
+$routes->post('/admin-product/update/(:num)', 'adminController::updateProduct/$1');
+// Delete Produk
+$routes->get('/admin-product/delete/(:num)', 'adminController::deleteProduct/$1');
+
+// invoice
+// template
+$routes->get('/admin-invoice-template', 'adminController::viewInvoiceTemplate');
+// list
+$routes->get('/admin-invoice-list', 'adminController::viewInvoiceList');

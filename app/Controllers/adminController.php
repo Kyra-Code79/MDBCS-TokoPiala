@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\KategoriModel;
 use App\Models\ProductModel;
+use App\Models\statusModel;
 use App\Models\userModel;
 
 class adminController extends BaseController
@@ -16,7 +17,7 @@ class adminController extends BaseController
     {
         $kategoriModel = new KategoriModel(); // Ensure you have a KategoriModel created to interact with tbl_kategori
         $kategoriList = $kategoriModel->findAll(); // Fetch all categories
-        return view('admin/add-product', ['kategoriList' => $kategoriList]);
+        return view('admin/product-detail', ['kategoriList' => $kategoriList]);
     }
     public function addProduct()
     {
@@ -25,42 +26,124 @@ class adminController extends BaseController
         // Get form data
         $data = [
             'nama_produk' => $this->request->getPost('nama_produk'),
+            'deskripsi_produk' => $this->request->getPost('product_Description'),
             'harga' => $this->request->getPost('harga'),
             'stok' => $this->request->getPost('stok'),
             'kategori_id' => $this->request->getPost('kategori_id'),
+            'status' => $this->request->getPost('status_id'),
         ];
 
         // Debug: Check if the file input is received
         if ($this->request->getFile('image') === null) {
             return redirect()->back()->with('error', 'No image file uploaded.');
         }
-
         // Handle image upload
         $image = $this->request->getFile('image');
-        if ($image->isValid()) {
-            $data['image'] = file_get_contents($image->getRealPath()); // Store the image as binary data
+        if ($image && $image->isValid() && !$image->hasMoved()) {
+            $data['image'] = file_get_contents($image->getRealPath()); // Store image as binary data
         } else {
             return redirect()->back()->with('error', 'Image upload failed: ' . $image->getErrorString());
         }
-
-
+        // foreach ($data as $results) {
+        //     echo $results;
+        //     echo "<br>";
+        // }
+        // exit();
         // Save the product data
         if ($productModel->save($data)) {
             return redirect()->to('/admin-product-detail?message=insert_data_success');
         } else {
-            return redirect()->to('/admin-add-product?message=insert_data_failed');
+            return redirect()->to('/admin-product-detail?message=insert_data_failed');
+            foreach ($data as $results) {
+                echo $results;
+                echo "<br>";
+            }
         }
     }
+    public function updateProduct($id)
+    {
+        log_message('info', 'Updating product with ID: ' . $id); // Log the ID
+        $productModel = new ProductModel();
+
+        // Retrieve the existing product to ensure it exists
+        $product = $productModel->find($id);
+        if (!$product) {
+            log_message('error', 'Product not found with ID: ' . $id); // Log error if product not found
+            return redirect()->to('/admin-product-detail?message=product_not_found');
+        }
+
+        // Get form data
+        $data = [
+            'nama_produk' => $this->request->getPost('nama_produk'),
+            'deskripsi_produk' => $this->request->getPost('desc_produk'),
+            'harga' => $this->request->getPost('harga'),
+            'stok' => $this->request->getPost('stok'),
+            'kategori_id' => $this->request->getPost('kategori_id'),
+            'status' => $this->request->getPost('status_id'),
+        ];
+
+        // Handle image update if a new file is uploaded
+        $image = $this->request->getFile('image');
+        if ($image && $image->isValid() && !$image->hasMoved()) {
+            $data['image'] = file_get_contents($image->getRealPath());
+        }
+        // foreach ($data as $results) {
+        //     echo $results;
+        //     echo "<br>";
+        // }
+        // exit();
+        // Update the product data
+        if ($productModel->update($id, $data)) {
+            return redirect()->to('/admin-product-detail?message=update_data_success');
+        } else {
+            return redirect()->to('/admin-product-detail?message=update_data_failed');
+        }
+    }
+
+    public function deleteProduct($id)
+    {
+        $productModel = new ProductModel();
+
+        // Check if the product exists
+        $product = $productModel->find($id);
+        if (!$product) {
+            return redirect()->to('/admin-product-detail?message=product_not_found');
+        }
+
+        // Attempt to delete the product
+        if ($productModel->delete($id)) {
+            return redirect()->to('/admin-product-detail?message=delete_success');
+        } else {
+            return redirect()->to('/admin-product-detail?message=delete_failed');
+        }
+    }
+
+
     public function productList()
     {
         $productModel = new ProductModel();
-        $data['products'] = $productModel->findAll(); // Fetch all products
+        $kategoriModel = new KategoriModel();
+        $statusModel = new statusModel();
 
-        // Convert the image data to Base64
+        $data['products'] = $productModel->findAll();
+
+        // Encode images to Base64
         foreach ($data['products'] as &$product) {
-            $product['image'] = base64_encode($product['image']); // Encode the binary image data
+            $product['image'] = base64_encode($product['image']);
         }
 
-        return view('admin/product-detail', $data); // Replace with your actual view file name
+        $data['kategoriList'] = $kategoriModel->findAll();
+        $data['statusList'] = $statusModel->findAll();
+        return view('admin/product-detail', $data);
+    }
+
+
+    public function viewInvoiceTemplate()
+    {
+        return view('admin/invoice-template');
+    }
+    public function viewInvoiceList()
+    {
+        return view('admin/invoice-list');
     }
 }
