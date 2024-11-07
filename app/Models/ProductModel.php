@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 class ProductModel extends Model
 {
     // Define the table and primary key
-    protected $table = 'tbl_produk'; // Adjust this to your actual products table name
-    protected $primaryKey = 'produk_id'; // Adjust this to your actual primary key
+    protected $table = 'tbl_produk';
+    protected $primaryKey = 'produk_id';
 
     // Specify the fields that are allowed to be mass-assigned
     protected $allowedFields = [
@@ -21,18 +21,18 @@ class ProductModel extends Model
         'status',
     ];
 
-    // Optional: Set validation rules if needed
+
     protected $validationRules = [
         'nama_produk' => 'required|min_length[3]',
         'deskripsi_produk' => 'required|min_length[10]',
         'harga' => 'required|numeric',
         'stok' => 'required|integer',
-        'kategori_id' => 'required|integer', // Ensure kategori_id is provided
-        'image' => 'permit_empty|is_image[image]', // Optional validation for image
+        'kategori_id' => 'required|integer',
+        'image' => 'permit_empty|is_image[image]',
         'status' => 'required|min_length[3]',
     ];
 
-    // Optional: Set error messages
+
     protected $validationMessages = [
         'nama_produk' => [
             'required' => 'Product name is required.',

@@ -18,7 +18,7 @@ class authController extends BaseController
         $this->response->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
         $this->response->setHeader('Pragma', 'no-cache');
     }
-
+    // ADMIN AUTH
     public function adminRegister()
     {
         // Disable caching for this method

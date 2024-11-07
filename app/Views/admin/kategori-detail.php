@@ -359,8 +359,9 @@ $role = $session->get('role');
                         </li>
                     </ul>
                     <ul class="menu-content">
-                        <li><a href="/admin-kategori-detail" class="menu-item"
-                                data-i18n="nav.invoice.invoice_template">Daftar Kategori</a></li>
+                        <li><a class="menu-item" href="/admin-kategori-detail"
+                                data-i18n="nav.invoice.invoice_template">Daftar Kategori</a>
+                        </li>
                     </ul>
                 </li>
                 <li class=" nav-item"><a href="#"><i class="la la-clipboard"></i><span class="menu-title"
@@ -415,156 +416,71 @@ $role = $session->get('role');
                                             class="la la-ellipsis-h font-medium-3"></i></a>
                                     <div class="heading-elements">
                                         <button class="btn btn-primary btn-sm" type="button" aria-haspopup="true"
-                                            aria-expanded="false" id="createProductBtn"><i class="ft-plus white"></i>
-                                            Create
-                                            Product</button>
+                                            aria-expanded="false" id="createKategoriBtn"><i class="ft-plus white"></i>
+                                            Create Kategori</button>
                                     </div>
 
                                     <!-- Modal for Adding Product -->
-                                    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="addProductModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="addKategoriModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="addKategoriModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
+                                                    <h5 class="modal-title" id="addKategoriModalLabel">Add Product</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <form id="addProductForm" action="<?= base_url('/admin-product/add') ?>"
-                                                    method="POST" enctype="multipart/form-data">
+                                                <form id="addProductForm"
+                                                    action="<?= base_url('/admin-kategori/add') ?>" method="POST"
+                                                    enctype="multipart/form-data">
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                            <label for="productName">Nama Produk</label>
-                                                            <input type="text" class="form-control" name="nama_produk"
-                                                                id="nama_produk" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="productDescription">Deskripsi Produk</label>
-                                                            <textarea type="text" class="form-control"
-                                                                name="product_Description" id="product_Description"
-                                                                required></textarea>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label for="productPrice">Harga</label>
-                                                            <input type="number" class="form-control" name="harga"
-                                                                id="harga" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="stok">Stok</label>
-                                                            <input type="text" class="form-control" name="stok"
-                                                                id="stok" rows="3" required></input>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="kategori">Kategori</label>
-                                                            <select class="form-control" name="kategori_id"
-                                                                id="kategori" required>
-                                                                <option value="">Select Kategori</option>
-                                                                <?php foreach ($kategoriList as $kategori): ?>
-                                                                    <option value="<?= $kategori['kategori_id']; ?>">
-                                                                        <?= $kategori['nama_kategori']; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="status">Status</label>
-                                                            <select class="form-control" name="status_id" id="status"
-                                                                required>
-                                                                <option value="">Select Status</option>
-                                                                <?php foreach ($statusList as $status): ?>
-                                                                    <option value="<?= $status['status_id']; ?>">
-                                                                        <?= $status['nama_status']; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="productImage">Image</label>
-                                                            <input type="file" class="form-control" name="image"
-                                                                id="image" required>
+                                                            <label for="productName">Nama Kategori</label>
+                                                            <input type="text" class="form-control" name="nama_kategori"
+                                                                id="nama_kategori" required>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
                                                             data-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-primary">Add
-                                                            Product</button>
+                                                            Kategori</button>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- Modal for editing Product -->
-                                    <div class="modal fade" id="updateProductModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="addProductModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="updateKategoriModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="addKategoriModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="updateProductModalLabel">Update Product
+                                                    <h5 class="modal-title" id="updateKategoriModalLabel">Update
+                                                        Kategori
                                                     </h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <form id="editProductForm"
-                                                    action="<?= base_url('/admin-product/update') ?>" method="POST"
+                                                <form id="editKategoriForm"
+                                                    action="<?= base_url('/admin-kategori/update') ?>" method="POST"
                                                     enctype="multipart/form-data">
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                            <label for="productName">Nama Produk</label>
-                                                            <input type="text" class="form-control" name="nama_produk"
-                                                                id="nama_produk" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="productName">Deskripsi Produk</label>
-                                                            <textarea type="text" class="form-control"
-                                                                name="desc_produk" id="desc_produk" required></textarea>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="productPrice">Harga</label>
-                                                            <input type="number" class="form-control" name="harga"
-                                                                id="harga" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="stok">Stok</label>
-                                                            <textarea class="form-control" name="stok" id="stok"
-                                                                rows="3" required></textarea>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="kategori">Kategori</label>
-                                                            <select class="form-control" name="kategori_id"
-                                                                id="kategori" required>
-                                                                <option value="">Select Kategori</option>
-                                                                <?php foreach ($kategoriList as $kategori): ?>
-                                                                    <option value="<?= $kategori['kategori_id']; ?>">
-                                                                        <?= $kategori['nama_kategori']; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="status">Status</label>
-                                                            <select class="form-control" name="status_id" id="status"
-                                                                required>
-                                                                <option value="">Select Status</option>
-                                                                <?php foreach ($statusList as $status): ?>
-                                                                    <option value="<?= $status['status_id']; ?>">
-                                                                        <?= $status['nama_status']; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="productImage">Image</label>
-                                                            <input type="file" class="form-control" name="image"
-                                                                id="image" required>
+                                                            <label for="productName">Nama Kategori</label>
+                                                            <input type="text" class="form-control" name="nama_kategori"
+                                                                id="nama_kategori" required>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
                                                             data-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-primary">Update
-                                                            Product</button>
+                                                            Kategori</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -582,55 +498,19 @@ $role = $session->get('role');
                                             <tr>
                                                 <th><input type="checkbox" class="input-chk-all"></th>
                                                 <th>No</th>
-                                                <th>Image</th>
-                                                <th>Nama Produk</th>
-                                                <th>Deskripsi Produk</th>
-                                                <th>Harga</th>
-                                                <th>Stok</th>
-                                                <th>Total Harga</th>
-                                                <th>Status</th>
+                                                <th>Nama Kategori</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach ($products as $product): ?>
+                                            <?php foreach ($kategori as $kategori): ?>
                                                 <tr>
                                                     <td><input type="checkbox" class="input-chk"></td>
                                                     <td>
-                                                        <div class="product-price"><?= $product['produk_id'] ?></div>
+                                                        <div class="product-price"><?= $kategori['kategori_id'] ?></div>
                                                     </td>
                                                     <td>
-                                                        <div class="product-img d-flex align-items-center"
-                                                            style="width: 100px; height: 100px; overflow: hidden;">
-                                                            <img class="img-fluid product-img"
-                                                                src="data:image/jpeg;base64,<?= $product['image']; ?>"
-                                                                alt="Product image">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="product-title"><?= $product['nama_produk']; ?></div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="product-description">
-                                                            <?= $product['deskripsi_produk']; ?>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="product-price">Rp.
-                                                            <?= number_format($product['harga'], 2); ?></div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="product-size"><strong><?= $product['stok'] ?></strong>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="total-price">Rp.
-                                                            <?= number_format($product['harga'] * $product['stok'], 2); ?>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="product-title">
-                                                            <?= $product['status'] ?></div>
+                                                        <div class="product-title"><?= $kategori['nama_kategori']; ?></div>
                                                     </td>
                                                     <td>
                                                         <span class="dropdown">
@@ -641,25 +521,17 @@ $role = $session->get('role');
                                                             </button>
                                                             <span aria-labelledby="btnSearchDrop2"
                                                                 class="dropdown-menu mt-1 dropdown-menu-right">
-                                                                <a href="#" class="dropdown-item edit-product"
-                                                                    data-toggle="modal" data-target="#updateProductModal"
-                                                                    data-id="<?= $product['produk_id']; ?>"
-                                                                    data-nama_produk="<?= $product['nama_produk']; ?>"
-                                                                    data-desc_produk="<?= $product['deskripsi_produk']; ?>"
-                                                                    data-harga="<?= $product['harga']; ?>"
-                                                                    data-stok="<?= $product['stok']; ?>"
-                                                                    data-kategori_id="<?= $product['kategori_id']; ?>"
-                                                                    data-status_id="<?= $product['status'] ?>">
-                                                                    <i class="la la-pencil"></i> Edit Product
+                                                                <a href="#" class="dropdown-item edit-kategori"
+                                                                    data-toggle="modal" data-target="#updateKategoriModal"
+                                                                    data-id="<?= $kategori['kategori_id']; ?>"
+                                                                    data-nama_kategori="<?= $kategori['nama_kategori']; ?>">
+                                                                    <i class="la la-pencil"></i> Edit Kategori
                                                                 </a>
-                                                                <a href="#" class="dropdown-item"><i class="la la-eye"></i>
-                                                                    Set Status</a>
-                                                                <a href="/admin-product/delete/<?= $product['produk_id']; ?>"
-                                                                    class="dropdown-item btn-danger delete-product"
-                                                                    data-id="<?= $product['produk_id']; ?>">
-                                                                    <i class="la la-trash"></i> Delete Product
+                                                                <a href="/admin-kategori/delete/<?= $kategori['kategori_id']; ?>"
+                                                                    class="dropdown-item btn-danger delete-kategori"
+                                                                    data-id="<?= $kategori['kategori_id']; ?>">
+                                                                    <i class="la la-trash"></i> Delete Kategori
                                                                 </a>
-
 
                                                             </span>
                                                         </span>
@@ -671,13 +543,7 @@ $role = $session->get('role');
                                             <tr>
                                                 <th><input type="checkbox" class="input-chk-all"></th>
                                                 <th>No</th>
-                                                <th>Image</th>
-                                                <th>Nama Produk</th>
-                                                <th>Deskripsi Produk</th>
-                                                <th>Harga</th>
-                                                <th>Stok</th>
-                                                <th>Total Harga</th>
-                                                <th>Status</th>
+                                                <th>Nama Kategori</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </tfoot>
@@ -705,9 +571,9 @@ $role = $session->get('role');
                                                 <button type="button" class="btn btn-secondary"
                                                     data-dismiss="modal">Cancel</button>
                                                 <form id="deleteProductForm"
-                                                    action="<?= base_url('/admin-product/delete/'); ?>" method="POST">
+                                                    action="<?= base_url('/admin-kategori/delete/'); ?>" method="POST">
                                                     <input type="hidden" name="_method" value="DELETE">
-                                                    <input type="hidden" name="id" id="deleteProductId" value="">
+                                                    <input type="hidden" name="id" id="deleteKategoriId" value="">
                                                     <button type="submit" class="btn btn-danger">Delete</button>
                                                 </form>
                                             </div>
@@ -739,48 +605,37 @@ $role = $session->get('role');
         </footer>
         <script>
             // Show the modal when the button is clicked
-            document.getElementById('createProductBtn').addEventListener('click', function() {
-                $('#addProductModal').modal('show');
+            document.getElementById('createKategoriBtn').addEventListener('click', function() {
+                $('#addKategoriModal').modal('show');
             });
 
             // Show update product modal and populate it with product data
-            $('.edit-product').on('click', function() {
+            $('.edit-kategori').on('click', function() {
                 console.log('Edit Product Clicked');
-                const productId = $(this).data('id');
-                console.log('Product ID:', productId);
-                const productName = $(this).data('nama_produk');
-                console.log('Product Name:', productName);
-                const productDesc = $(this).data('desc_produk');
-                const productPrice = $(this).data('harga');
-                const productStock = $(this).data('stok');
-                const productCategory = $(this).data('kategori_id');
-                const productStatus = $(this).data('status_id');
+                const kategoriId = $(this).data('id');
+                console.log('Kategori ID:', kategoriId);
+                const kategoriName = $(this).data('nama_kategori');
+                console.log('Kategori Name:', kategoriName);
 
                 // Populate fields in the update modal
-                $('#updateProductModal #nama_produk').val(productName);
-                $('#updateProductModal #desc_produk').val(productDesc);
-                $('#updateProductModal #harga').val(productPrice);
-                $('#updateProductModal #stok').val(productStock);
-                $('#updateProductModal #kategori').val(productCategory);
-                $('#updateProductModal #status').val(productStatus);
-
+                $('#updateKategoriModal #nama_kategori').val(kategoriName);
 
                 // Update form action with the product ID for the update request
-                $('#editProductForm').attr('action', '<?= base_url("/admin-product/update/"); ?>' + productId);
+                $('#editKategoriForm').attr('action', '<?= base_url("/admin-kategori/update/"); ?>' + kategoriId);
 
                 // Show the modal
-                $('#updateProductModal').modal('show');
+                $('#updateKategoriModal').modal('show');
             });
             // Update form action with the product ID for the update request
-            $('#editProductForm').attr('action', '<?= base_url("/admin-product/update/"); ?>' + productId);
-            console.log('Form Action URL:', $('#editProductForm').attr('action'));
+            $('#editKategoriForm').attr('action', '<?= base_url("/admin-kategori/update/"); ?>' + kategoriId);
+            console.log('Form Action URL:', $('#editKategoriForm').attr('action'));
 
             $(document).ready(function() {
                 // Show the modal and store the product ID on delete button click
-                $('.delete-product').on('click', function(event) {
+                $('.delete-kategori').on('click', function(event) {
                     event.preventDefault();
                     const productIdToDelete = $(this).data('id'); // Store the product ID
-                    $('#deleteProductId').val(productIdToDelete); // Set the hidden input value
+                    $('#deleteKategoriId').val(productIdToDelete); // Set the hidden input value
                     $('#deleteProductModal').modal('show'); // Show the modal
                 });
             });

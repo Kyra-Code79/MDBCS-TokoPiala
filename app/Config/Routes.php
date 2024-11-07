@@ -16,6 +16,7 @@ $routes->get('/order', 'Home::UserOrder');
 
 $routes->get('/invoiceTemplate', 'Home::UserInvoiceTemplate');
 
+// ======= ADMIN ROUTES STARTS ========
 // Admin Pages
 $routes->get('/auth/login', 'authController::adminLogin');
 $routes->get('/auth/register', 'authController::adminRegister');
@@ -27,6 +28,15 @@ $routes->post('/register/auth', 'authController::ownerRegister'); // This handle
 // Logout and Dashboard
 $routes->get('/logoutAdmin', 'authController::logoutAdmin');
 $routes->get('/dashboard', 'authController::index', ['filter' => 'authGuard']);
+
+// Detail Kategori
+$routes->get('/admin-kategori-detail', 'adminController::kategoriList');
+// Add Kategori
+$routes->post('/admin-kategori/add', 'adminController::addKategori');
+// Update Kategori
+$routes->post('/admin-kategori/update/(:num)', 'adminController::updateKategori/$1');
+// Delete Kategori
+$routes->get('/admin-kategori/delete/(:num)', 'adminController::deleteKategori/$1');
 
 // Detail Produk
 $routes->get('/admin-product-detail', 'adminController::productList', ['filter' => 'authGuard']);
@@ -43,3 +53,7 @@ $routes->get('/admin-product/delete/(:num)', 'adminController::deleteProduct/$1'
 $routes->get('/admin-invoice-template', 'adminController::viewInvoiceTemplate');
 // list
 $routes->get('/admin-invoice-list', 'adminController::viewInvoiceList');
+
+
+// ======= ADMIN ROUTES ENDS ========
+// ======= USER ROUTES STARTS ========

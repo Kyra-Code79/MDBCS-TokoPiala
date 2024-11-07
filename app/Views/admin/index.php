@@ -568,6 +568,12 @@ $role = $session->get('role');
                 data-i18n="nav.invoice.invoice_template">Daftar Produk</a>
             </li>
           </ul>
+
+          <ul class="menu-content">
+            <li><a class="menu-item" href="/admin-kategori-detail"
+                data-i18n="nav.invoice.invoice_template">Daftar Kategori</a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item">
           <a href="#"><i class="la la-clipboard"></i><span class="menu-title"

@@ -136,14 +136,77 @@ class adminController extends BaseController
         $data['statusList'] = $statusModel->findAll();
         return view('admin/product-detail', $data);
     }
+    public function kategoriList()
+    {
+        $kategoriModel = new KategoriModel();
+        $data['kategori'] = $kategoriModel->findAll();
+        return view('admin/kategori-detail', $data);
+    }
+    public function addKategori()
+    {
+        $kategoriModel = new KategoriModel();
+        $data = [
+            'nama_kategori' => $this->request->getPost('nama_kategori'),
+        ];
+        if ($kategoriModel->save($data)) {
+            return redirect()->to('/admin-kategori-detail?message=insert_kategori_success');
+        } else {
+            return redirect()->to('/admin-kategori-detail?message=insert_kategori_failed');
+            foreach ($data as $results) {
+                echo $results;
+                echo "<br>";
+            }
+        }
+    }
+    public function updateKategori($id)
+    {
+        $kategoriModel = new KategoriModel();
+        $kategori = $kategoriModel->find($id);
+        if (!$kategori) {
+?><script>
+                console.log('Error', 'Kategori Not Found with ID: '
+                    .$id);
+            </script><?php
+                        log_message('error', 'Kategori not found with ID: ' . $id); // Log error if product not found
+                        exit();
+                        // return redirect()->to('/admin-kategori-detail?message=kategori_not_found');
+                    }
+                    // Get form data
+                    $data = [
+                        'kategori_id' => $this->request->getPost('kategori_id'),
+                        'nama_kategori' => $this->request->getPost('nama_kategori'),
+                    ];
+                    if ($kategoriModel->update($id, $data)) {
+                        return redirect()->to('/admin-kategori-detail?message=update_kategori_success');
+                    } else {
+                        return redirect()->to('/admin-kategori-detail?message=update_kategori_failed');
+                    }
+                }
+                public function deleteKategori($id)
+                {
+                    $kategoriModel = new KategoriModel();
+
+                    // Check if the product exists
+                    $kategori = $kategoriModel->find($id);
+                    if (!$kategori) {
+                        return redirect()->to('/admin-kategori-detail?message=product_not_found');
+                    }
+
+                    // Attempt to delete the product
+                    if ($kategoriModel->delete($id)) {
+                        return redirect()->to('/admin-kategori-detail?message=delete_success');
+                    } else {
+                        return redirect()->to('/admin-kategori-detail?message=delete_failed');
+                    }
+                }
 
 
-    public function viewInvoiceTemplate()
-    {
-        return view('admin/invoice-template');
-    }
-    public function viewInvoiceList()
-    {
-        return view('admin/invoice-list');
-    }
-}
+                public function viewInvoiceTemplate()
+                {
+                    return view('admin/invoice-template');
+                }
+                public function viewInvoiceList()
+                {
+                    return view('admin/invoice-list');
+                }
+            }
