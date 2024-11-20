@@ -30,36 +30,57 @@ class adminController extends BaseController
             'harga' => $this->request->getPost('harga'),
             'stok' => $this->request->getPost('stok'),
             'kategori_id' => $this->request->getPost('kategori_id'),
-            'status' => $this->request->getPost('status_id'),
+            'status' => $this->request->getPost('status_id'),  // This will be 1 or 0
         ];
 
-        // Debug: Check if the file input is received
-        if ($this->request->getFile('image') === null) {
-            return redirect()->back()->with('error', 'No image file uploaded.');
+        // Map the numeric status to its human-readable form
+        $statusMapping = [
+            1 => 'Available',  // Map 1 to "Available"
+            0 => 'Not Available', // Map 0 to "Not Available"
+        ];
+
+        // Check if the status is valid and map it
+        if (isset($statusMapping[$data['status']])) {
+            $data['status'] = $statusMapping[$data['status']];
+        } else {
+            return redirect()->back()->with('error', 'Invalid status value.');
         }
-        // Handle image upload
+
+        // Check if required fields are present
+        foreach ($data as $key => $value) {
+            if (empty($value)) {
+                return redirect()->back()->with('error', ucfirst(str_replace('_', ' ', $key)) . ' is required.');
+            }
+        }
+
+        // Handle image upload (store it as BLOB in the database)
         $image = $this->request->getFile('image');
+
         if ($image && $image->isValid() && !$image->hasMoved()) {
-            $data['image'] = file_get_contents($image->getRealPath()); // Store image as binary data
+            // Debug: Check MIME type before storing the image
+            $mimeType = $image->getClientMimeType();
+            if (strpos($mimeType, 'image') === false) {
+                return redirect()->back()->with('error', 'Uploaded file is not a valid image.');
+            }
+
+            // Read the image content as binary data
+            $imageData = file_get_contents($image->getTempName());
+
+            // Store the image data in the 'image' field as BLOB
+            $data['image'] = $imageData;
         } else {
             return redirect()->back()->with('error', 'Image upload failed: ' . $image->getErrorString());
         }
-        // foreach ($data as $results) {
-        //     echo $results;
-        //     echo "<br>";
-        // }
-        // exit();
-        // Save the product data
+
+        // Save the product data to the database
         if ($productModel->save($data)) {
-            return redirect()->to('/admin-product-detail?message=insert_data_success');
+            return redirect()->to('/admin-product-detail')->with('message', 'insert_data_success');
         } else {
-            return redirect()->to('/admin-product-detail?message=insert_data_failed');
-            foreach ($data as $results) {
-                echo $results;
-                echo "<br>";
-            }
+            return redirect()->back()->with('error', 'Failed to save product data.');
         }
     }
+
+
     public function updateProduct($id)
     {
         log_message('info', 'Updating product with ID: ' . $id); // Log the ID

@@ -69,6 +69,11 @@ class ProductModel extends Model
         return $this->findAll(); // Retrieves all products
     }
 
+    public function getActiveProducts()
+    {
+        return $this->where('status', '1')->findAll();
+    }
+
     // Retrieve a specific product by ID
     public function getProduct($id)
     {

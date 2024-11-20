@@ -6,10 +6,9 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::beforeUserDashboard');
-$routes->get('/login', 'Home::login');
 $routes->get('/recover-password', 'Home::recoverPassword');
 $routes->get('/register', 'Home::register');
-$routes->get('/product-detail', 'Home::beforeUserProduct');
+$routes->get('/product-detail/(:num)', 'Home::beforeUserProduct/$1');
 $routes->get('/shopping-cart', 'Home::UserCart');
 $routes->get('/checkout', 'Home::UserCheckout');
 $routes->get('/order', 'Home::UserOrder');
@@ -18,12 +17,13 @@ $routes->get('/invoiceTemplate', 'Home::UserInvoiceTemplate');
 
 // ======= ADMIN ROUTES STARTS ========
 // Admin Pages
-$routes->get('/auth/login', 'authController::adminLogin');
-$routes->get('/auth/register', 'authController::adminRegister');
+$routes->get('/auth/login', 'authController::userLogin');
+$routes->get('/auth/register', 'authController::userRegister');
+$routes->get('auth/verify/(:any)', 'AuthController::verify/$1');
 
 // Admin Login and Register Post Requests
 $routes->post('/login/auth', 'authController::adminAuth');
-$routes->post('/register/auth', 'authController::ownerRegister'); // This handles the registration form
+$routes->post('/register/auth', 'authController::fetchUserRegister'); // This handles the registration form
 
 // Logout and Dashboard
 $routes->get('/logoutAdmin', 'authController::logoutAdmin');
